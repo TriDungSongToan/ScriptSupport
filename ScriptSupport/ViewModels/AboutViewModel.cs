@@ -121,7 +121,7 @@ namespace ScriptSupport.ViewModels
             Version = "1.0.0";
             Author = "Trí Dũng Song Toàn";
             License = "Non-commercial License";
-            Copyright = "Copyright © 2026 Trí Dũng Song Toàn. All rights reserved.";
+            Copyright = "Copyright © 2026 Trí Dũng Song Toàn. All rights reserved. Licensed for personal and non-commercial use only.";
             var framework = Assembly.GetExecutingAssembly().GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName;
             NetVersionBuild = framework?.Replace(".NETCoreApp,Version=v", ".NET ").Replace(".NETFramework,Version=v", ".NET Framework ") ?? "Unknown";
             NetRunTime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
