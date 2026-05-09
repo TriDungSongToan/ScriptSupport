@@ -1,0 +1,95 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Localization="clr-namespace:ScriptSupport.Localization" >
+
+    <ContextMenu x:Key="EditorContextMenu" x:Shared="False" >
+        <ContextMenu.Template>
+            <ControlTemplate TargetType="ContextMenu">
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding Foreground}"
+                        BorderThickness="0.5"
+                        CornerRadius="2"
+                        Padding="2">
+                    <StackPanel IsItemsHost="True"/>
+                </Border>
+            </ControlTemplate>
+        </ContextMenu.Template>
+        <!-- Colors -->
+        <ContextMenu.Background>
+            <Binding RelativeSource="{RelativeSource Self}"
+                 Path="PlacementTarget.DataContext.UIConfig.Background" />
+        </ContextMenu.Background>
+        <ContextMenu.Foreground>
+            <Binding RelativeSource="{RelativeSource Self}"
+                 Path="PlacementTarget.DataContext.UIConfig.Foreground" />
+        </ContextMenu.Foreground>
+        <ContextMenu.Resources>
+            <Style TargetType="MenuItem">
+                <Setter Property="Foreground"
+                    Value="{Binding PlacementTarget.DataContext.UIConfig.Foreground,
+                            RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                <Setter Property="Background"
+                    Value="{Binding PlacementTarget.DataContext.UIConfig.Background,
+                            RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                <Style.Triggers>
+                    <Trigger Property="IsHighlighted" Value="True">
+                        <!--<Setter Property="Background"
+                            Value="{Binding PlacementTarget.DataContext.UIConfig.ThemeColor,
+                                    RelativeSource={RelativeSource AncestorType=ContextMenu}}" />-->
+                        <Setter Property="Foreground"
+                            Value="{Binding PlacementTarget.DataContext.UIConfig.ThemeColor,
+                                    RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.4" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="Separator">
+                <Setter Property="Background"
+                    Value="{Binding PlacementTarget.DataContext.UIConfig.Foreground,
+                            RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                <Setter Property="Opacity" Value="0.3" />
+            </Style>
+        </ContextMenu.Resources>
+
+        <!-- Edit Commands -->
+        <MenuItem Header="{Localization:Lang Cut}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.CutCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <MenuItem Header="{Localization:Lang Copy}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.CopyCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <MenuItem Header="{Localization:Lang Paste}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.PasteCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <Separator />
+        <!-- Width Conversion -->
+        <MenuItem Header="{Localization:Lang ToFull}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.ToFullWidthCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <MenuItem Header="{Localization:Lang ToHalf}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.ToHalfWidthCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <Separator />
+        <!-- Script Conversion -->
+        <MenuItem Header="{Localization:Lang ToSuper}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.ToSuperScriptCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <MenuItem Header="{Localization:Lang FromSuper}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.FromSuperScriptCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <MenuItem Header="{Localization:Lang ToSub}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.ToSubScriptCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <MenuItem Header="{Localization:Lang FromSub}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.FromSubScriptCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        <Separator />
+        <!-- Special -->
+        <MenuItem Header="{Localization:Lang SpecialChar}"
+                  Command="{Binding PlacementTarget.DataContext.EditorCommands.SpecialCharactersCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+    </ContextMenu>
+
+</ResourceDictionary>

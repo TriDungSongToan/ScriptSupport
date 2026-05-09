@@ -1,0 +1,203 @@
+﻿<UserControl x:Class="ScriptSupport.UserControls.LinkMarkerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ScriptSupport.UserControls"
+             mc:Ignorable="d" >
+    <Grid>
+        <Border x:Name="blRoot" Grid.Row="0" Margin="0" Padding="0"
+                FlowDirection="LeftToRight" BorderThickness="0.8" CornerRadius="4"
+                Background="Transparent"
+                BorderBrush="{Binding UIConfig.ThemeColor}" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox Grid.Column="0" Grid.Row="0" >
+                    <ToggleButton x:Name="tbtntopleft" Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding TopLeft, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionDarkToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffC.ico" Stretch="UniformToFill" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="90" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnC.ico" Stretch="UniformToFill" RenderTransformOrigin="0.5,0.5" >
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="90" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+                <Viewbox Grid.Column="1" Grid.Row="0" >
+                    <ToggleButton x:Name="tbtntop" Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding Top, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionSecondaryToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffS.ico" Stretch="UniformToFill"
+                               RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="180" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnS.ico" Stretch="UniformToFill" RenderTransformOrigin="0.5,0.5" >
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="180" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+                <Viewbox  Grid.Column="2" Grid.Row="0" >
+                    <ToggleButton x:Name="tbtntopright" Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding TopRight, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionSecondaryToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffC.ico" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="180" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnC.ico" RenderTransformOrigin="0.5,0.5" >
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="180" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+                <Viewbox Grid.Column="0" Grid.Row="1" >
+                    <ToggleButton x:Name="tbtnleft" Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding Left, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionSecondaryToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffS.ico" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="90" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnS.ico" RenderTransformOrigin="0.5,0.5" >
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="90" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+                <Viewbox Grid.Column="1" Grid.Row="1" Stretch="Uniform"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <Grid>
+                        <Image x:Name="linkCenter"
+                           Source="pack://application:,,,/Images/DataEditor/Link.ico"
+                           Cursor="Hand" Margin="0" />
+                        <Button Panel.ZIndex="1" Grid.Column="1" Grid.Row="1"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Background="Transparent" Foreground="Transparent"
+                            Opacity="0" Style="{x:Null}" Cursor="Hand" Command="{Binding ClearLinkMakerCommand}" />
+                    </Grid>
+                </Viewbox>
+
+                <Viewbox Grid.Column="2" Grid.Row="1" >
+                    <ToggleButton x:Name="tbtnright"  Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding Right, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionSecondaryToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffS.ico" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="-90" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnS.ico" RenderTransformOrigin="0.5,0.5" >
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="-90" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+                <Viewbox Grid.Column="0" Grid.Row="2" >
+                    <ToggleButton x:Name="tbtnbotleft" Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding BottomLeft, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionSecondaryToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffC.ico" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="0" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnC.ico" RenderTransformOrigin="0.5,0.5" >
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="0" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+                <Viewbox Grid.Column="1" Grid.Row="2" >
+                    <ToggleButton x:Name="tbtnbot" Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding Bottom, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffS.ico" RenderTransformOrigin="0.5,0.5" />
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnS.ico" RenderTransformOrigin="0.5,0.5" />
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+                <Viewbox Grid.Column="2" Grid.Row="2" >
+                    <ToggleButton x:Name="tbtnbotright" Grid.Column="2" Grid.Row="2" Background="Transparent"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  IsChecked="{Binding BottomRight, Mode=TwoWay}"
+                                  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                  Style="{StaticResource MaterialDesignActionSecondaryToggleButton}">
+                        <Image Source="pack://application:,,,/Images/DataEditor/Gold_OffC.ico" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="270" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="pack://application:,,,/Images/DataEditor/Gold_OnC.ico" RenderTransformOrigin="0.5,0.5" >
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="270" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                </Viewbox>
+
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

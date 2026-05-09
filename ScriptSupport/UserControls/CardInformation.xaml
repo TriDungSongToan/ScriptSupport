@@ -1,0 +1,364 @@
+﻿<UserControl x:Class="ScriptSupport.UserControls.CardInformation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ScriptSupport.UserControls"
+             xmlns:Converters="clr-namespace:ScriptSupport.Converters"
+             xmlns:Localization="clr-namespace:ScriptSupport.Localization"
+             Background="Transparent"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="250">
+    
+    <UserControl.Resources>
+
+        <Converters:LangMultiConverter x:Key="LangMultiConverter" />
+        <Converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" Inverse="False" />
+        <Converters:CardInfoToVisibilityConverter x:Key="CardInfoToVisibilityConverter"/>
+
+        <Style x:Key="LinkStyle" TargetType="Hyperlink">
+            <Setter Property="Foreground" Value="Yellow"/>
+            <Setter Property="TextDecorations" Value="{x:Null}"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="LinkButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+
+            <Setter Property="Foreground" Value="{Binding UIConfig.ThemeColor}"/>
+            <Setter Property="Opacity" Value="0.8"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{TemplateBinding Content}"
+                           TextDecorations="{TemplateBinding Tag}">
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="Tag" Value="Underline"/>
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.6"/>
+                </Trigger>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.3"/>
+                </Trigger>
+                
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Height="20" Margin="0" Padding="0"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
+                    BorderThickness="0"
+                    BorderBrush="Transparent" Background="Transparent"
+                    Command="{Binding NextCardTextCommand}" >
+                <materialDesign:PackIcon Kind="MenuLeft" Width="20" Height="20" Foreground="{Binding UIConfig.Foreground}" Padding="0" Margin="0" />
+            </Button>
+
+            <TextBlock Grid.Column="1" Text="{Binding SelectedCardName}" TextWrapping="NoWrap"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"
+                       Background="Transparent"
+                       Foreground="{Binding UIConfig.Foreground}"
+                       FontFamily="{Binding UIConfig.FontFamily}"
+                       FontSize="14" />
+
+            <Button Grid.Column="2" Height="20" Margin="0" Padding="0"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
+                    BorderThickness="0"
+                    BorderBrush="Transparent" Background="Transparent"
+                    Command="{Binding PrevCardTextCommand}">
+                <materialDesign:PackIcon Kind="MenuRight" Width="20" Height="20" Foreground="{Binding UIConfig.Foreground}" Padding="0" Margin="0" />
+            </Button>
+
+        </Grid>
+
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Width="100" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <ComboBox Grid.Row="0" Height="25"
+                          BorderThickness="0.5" IsEditable="False" Padding="0"
+                          BorderBrush="{Binding UIConfig.ThemeColor}"
+                          Background="{Binding UIConfig.Background}"
+                          Foreground="{Binding UIConfig.Foreground}"
+                          FontFamily="{Binding UIConfig.FontFamily}"
+                          FontSize="12"
+                          ItemsSource="{Binding ImageCards}"
+                          SelectedItem="{Binding SelectedImage, Mode=TwoWay}"
+                          DisplayMemberPath="Name"
+                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                          VerticalContentAlignment="Stretch" HorizontalContentAlignment="Left"
+                          materialDesign:ColorZoneAssist.Mode="Custom"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                          TextOptions.TextFormattingMode="Display"
+                          TextOptions.TextRenderingMode="ClearType"
+                          materialDesign:TextFieldAssist.HasClearButton="False"
+                          materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                          materialDesign:TextFieldAssist.TextFieldCornerRadius="5" 
+                          materialDesign:TextFieldAssist.UnderlineCornerRadius="0,0,10,10" >
+                    <ComboBox.Resources>
+                        <Style TargetType="ScrollBar">
+                            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource AncestorType=ComboBox}}" />
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Style>
+                    </ComboBox.Resources>
+                </ComboBox>
+
+                <Border Grid.Row="2" Background="Transparent" BorderThickness="0" Height="146" >
+                    <Image Source="{Binding SelectedImageSource}"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                </Border>
+
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="3,0,0,0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Margin="0,0,0,1" TextWrapping="Wrap" Background="Transparent"
+                           Visibility="{Binding CardInfo.CardType, Converter={StaticResource StringToVisibilityConverter}}" >
+                    <Run Text="{Localization:Lang cardLabelType}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.CardType}" />
+                </TextBlock>
+                
+                <TextBlock Grid.Row="1" Margin="0,0,0,1" TextWrapping="Wrap" Background="Transparent"
+                           Visibility="{Binding CardInfo.SetCode, Converter={StaticResource StringToVisibilityConverter}}" >
+                    <Run Text="{Localization:Lang cardlabelSetCode}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.SetCode}" />
+                </TextBlock>
+                
+                <TextBlock Grid.Row="2" Margin="0,0,0,1" TextWrapping="Wrap" Background="Transparent"
+                           Visibility="{Binding CardInfo.Attribute, Converter={StaticResource StringToVisibilityConverter}}" >
+                    <Run Text="{Localization:Lang cardLabelAttri}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.Attribute}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="3" Margin="0,0,0,1" TextWrapping="Wrap" Background="Transparent"
+                           Visibility="{Binding CardInfo.Race, Converter={StaticResource StringToVisibilityConverter}}" >
+                    <Run Text="{Binding CardInfo.RaceLabel}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.Race}" />
+                </TextBlock>
+
+                <TextBlock Grid.Row="4" Margin="0,0,0,0" TextWrapping="Wrap" Background="Transparent"
+                           Visibility="{Binding CardInfo.Rarity, Converter={StaticResource StringToVisibilityConverter}}" >
+                    <Run Text="{Localization:Lang Rarity}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.Rarity}" />
+                </TextBlock>
+                
+            </Grid>
+            
+        </Grid>
+
+        <WrapPanel Grid.Row="2" >
+            
+            <Grid Margin="0,0,10,0"
+                  Visibility="{Binding CurrentInfo, Converter={StaticResource CardInfoToVisibilityConverter}, ConverterParameter=IsMonster}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" >
+                    <Run Text="{Binding CardInfo.LevelLabel}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.Level}" />
+                </TextBlock>
+                <Image Grid.Column="1" Margin="3,0,0,0"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                       Source="{Binding ImageLevel}" Width="14" Height="14" />
+            </Grid>
+            
+            <Grid Margin="0,0,10,0"
+                  Visibility="{Binding CurrentInfo, Converter={StaticResource CardInfoToVisibilityConverter}, ConverterParameter=IsLink}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" >
+                    <Run Text="{Localization:Lang LinkRat}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.LinkRating}" />
+                </TextBlock>
+                <Image Grid.Column="1" Margin="3,0,0,0"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                       Source="/Images/DataEditor/Link.ico" Width="14" Height="14" />
+            </Grid>
+
+            <Grid Visibility="{Binding CurrentInfo, Converter={StaticResource CardInfoToVisibilityConverter}, ConverterParameter=IsPendulum}" >
+                <TextBlock Grid.Row="7" TextWrapping="Wrap" >
+                    <Run Text="[" Foreground="#66CC66" />
+                    <Run Text="{Binding CardInfo.LeftScale}" Foreground="#3399FF" />
+                    <Run Text=" | Scale | " />
+                    <Run Text="{Binding CardInfo.RightScale}" Foreground="#FF4D4D" />
+                    <Run Text="]" Foreground="#66CC66" />
+                </TextBlock>
+            </Grid>
+            
+        </WrapPanel>
+
+        <WrapPanel Grid.Row="3" >
+            
+            <Grid Margin="0,0,10,0"
+                  Visibility="{Binding CardInfo.HasAtk, Converter={StaticResource PositiveBoolToVisibilityConverter}}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" >
+                    <Run Text="{Localization:Lang cardatk}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.Atk}" />
+                </TextBlock>
+                <Image Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                       Source="/Images/DataEditor/Level.ico" Width="14" Height="14" Visibility="Collapsed" />
+            </Grid>
+            
+            <Grid Margin="0,0,10,0"
+                  Visibility="{Binding CardInfo.HasDef, Converter={StaticResource PositiveBoolToVisibilityConverter}}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" >
+                    <Run Text="{Localization:Lang carddef}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.Def}" />
+                </TextBlock>
+                <Image Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                       Source="/Images/DataEditor/Level.ico" Width="14" Height="14" Visibility="Collapsed" />
+            </Grid>
+
+            <Grid Margin="0,0,10,0"
+                  Visibility="{Binding CurrentInfo, Converter={StaticResource CardInfoToVisibilityConverter}, ConverterParameter=IsLink}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Localization:Lang LinkArr}" Margin="0,0,3,0" />
+                <TextBlock Grid.Column="1" TextWrapping="Wrap" >
+                    <Run Text="[" />
+                    <Run Text="{Binding CardInfo.LinkMarker}" />
+                    <Run Text="]" />
+                </TextBlock>
+            </Grid>
+
+        </WrapPanel>
+
+        <WrapPanel Grid.Row="4" >
+            <Grid Margin="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" TextWrapping="Wrap" ToolTip="{Localization:Lang cardID}" >
+                    <Run Text="{Localization:Lang dataGridID}" />
+                    <Run Text="{Localization:Lang ColonChar}" />
+                    <Run Text="{Binding CardInfo.CardId}" />
+                </TextBlock>
+                <TextBlock Grid.Column="2" Text="|" Visibility="{Binding CardInfo.CardAlias, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Column="3" Text="{Binding CardInfo.CardAlias}" TextWrapping="Wrap" ToolTip="{Localization:Lang cardAlias}" />
+            </Grid>
+        </WrapPanel>
+
+        <WrapPanel Grid.Row="5" Visibility="{Binding CardInfo.CardRule, Converter={StaticResource StringToVisibilityConverter}}" >
+            <Grid Margin="0" >
+                <TextBlock TextWrapping="Wrap" >
+                    <Run Text="[" />
+                    <Run Text="{Binding CardInfo.CardRule}" />
+                    <Run Text="]" />
+                </TextBlock>
+            </Grid>
+        </WrapPanel>
+
+        <Grid Grid.Row="6" Margin="0,5,0,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0"
+                    Style="{StaticResource LinkButtonStyle}"
+                    Content="Card Database"
+                    Command="{Binding CardDBCommand}" />
+
+            <Button Grid.Row="0" Grid.Column="1"
+                    Style="{StaticResource LinkButtonStyle}"
+                    Content="Konami Database"
+                    Command="{Binding KonamiDBCommand}" />
+
+            <Button Grid.Row="1" Grid.Column="0"
+                    Style="{StaticResource LinkButtonStyle}"
+                    Content="Yugipedia"
+                    Command="{Binding YuGiPediaCommand}" />
+
+            <Button Grid.Row="1" Grid.Column="1"
+                    Style="{StaticResource LinkButtonStyle}"
+                    Content="YGO Resources"
+                    Command="{Binding YGOResourcesCommand}" />
+
+        </Grid>
+    </Grid>
+</UserControl>

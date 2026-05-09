@@ -1,0 +1,177 @@
+﻿<Window x:Class="ScriptSupport.Views.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:ScriptSupport.Views"
+        xmlns:Behaviors="clr-namespace:ScriptSupport.Behaviors"
+        xmlns:Converters="clr-namespace:ScriptSupport.Converters"
+        xmlns:States="clr-namespace:ScriptSupport.States"
+        xmlns:ViewModels="clr-namespace:ScriptSupport.ViewModels"
+        xmlns:Localization="clr-namespace:ScriptSupport.Localization"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Medium"
+        Style="{StaticResource MaterialDesignWindow}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Background="Transparent"
+        d:DataContext="{d:DesignInstance Type=ViewModels:SettingViewModel}"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        WindowStyle="None"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d"
+        Title="About" Height="auto" Width="auto" >
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{Binding UIConfig.Foreground}" />
+            <Setter Property="FontFamily" Value="{Binding UIConfig.FontFamily}" />
+            <Setter Property="FontSize" Value="{Binding UIConfig.FontSize}" />
+        </Style>
+    </Window.Resources>
+
+    <materialDesign:Card UniformCornerRadius="5" d:FlowDirection="LeftToRight"
+                         FlowDirection="{Binding UIConfig.FlowDirection}"
+                         BorderBrush="{Binding UIConfig.ThemeColor}"
+                         Background="{Binding UIConfig.Background}"
+                         BorderThickness="1,0,1,1" >
+
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Border Height="30" Grid.Row="0" CornerRadius="5"
+                    Background="{Binding UIConfig.ThemeColor}"
+                    BorderThickness="0,0,0,0" Padding="6,3,6,3"
+                    MouseLeftButtonDown="Border_MouseLeftButtonDown" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <TextBlock Text="{Localization:Lang About}" FontWeight="Medium" IsHitTestVisible="False"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Row="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Width="300" Height="auto" BorderBrush="{Binding UIConfig.ThemeColor}" BorderThickness="1"
+                        Padding="5" Margin="3,3,3,0" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <StackPanel>
+
+                        <Grid HorizontalAlignment="Center"
+                              Height="150" Width="150" Margin="0,0,0,0" >
+                            <Image Source="/Images/Logo.ico"
+                                    Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                        </Grid>
+
+                        <TextBlock Margin="0" Text="{Binding AppName}" FontSize="30" TextAlignment="Center"  />
+
+                        <StackPanel Margin="0,3,0,0" Orientation="Horizontal" HorizontalAlignment="Center" >
+                            <TextBlock Text="{Localization:Lang Version}" Margin="0,0,5,0" FontSize="14" />
+                            <TextBlock Text="{Binding Version}"  FontSize="14" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0,15,0,0" Orientation="Horizontal" HorizontalAlignment="Center" >
+                            <TextBlock Text="{Localization:Lang Creator}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center">
+                            <Button Width="25" Height="25" Background="Transparent"
+                                    BorderBrush="Transparent" BorderThickness="0"
+                                    Margin="0" Padding="0" ToolTip="Discord" Command="{Binding CreatorWebCommand}" >
+                                <Image Source="/Images/Creator.png" Stretch="UniformToFill" />
+                            </Button>
+                            <TextBlock Text="{Binding Author}" Margin="10,0,10,0"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       FontSize="16" />
+                            <Button Width="25" Height="25" Background="Transparent"
+                                    BorderBrush="Transparent" BorderThickness="0"
+                                    Margin="0" Padding="0" ToolTip="Github" Command="{Binding GithubCommand}" >
+                                <materialDesign:PackIcon Width="30" Height="30" Kind="Github"
+                                                         Foreground="{Binding UIConfig.Foreground}"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>
+                        </StackPanel>
+
+                        <Border Height="1" Margin="10,5,10,5"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Background="{Binding UIConfig.ThemeColor}" />
+
+                        <StackPanel Margin="5,0,5,0">
+                            <TextBlock Text="{Binding License}" FontSize="12" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Copyright}" FontSize="12" TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <Border Height="1" Margin="10,5,10,5"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Background="{Binding UIConfig.ThemeColor}" />
+
+                        <StackPanel Margin="5,0,5,0" Orientation="Horizontal" >
+                            <TextBlock Text=".NET:" FontSize="12" />
+                            <TextBlock Text="{Binding NetVersionBuild}" TextWrapping="Wrap"
+                                       FontSize="12" Margin="5,0,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Margin="5,0,5,0" Orientation="Horizontal" >
+                            <TextBlock Text="OS:" FontSize="12" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding OperatingSystem}" TextWrapping="Wrap" FontSize="12" />
+                        </StackPanel>
+
+                        <StackPanel Margin="5,0,5,0" Orientation="Horizontal" >
+                            <TextBlock Text="Build:" FontSize="12" />
+                            <TextBlock TextWrapping="Wrap" FontSize="12" Margin="5,0,0,0" >
+                                <Run Text="{Binding ReleaseDate, StringFormat=yyyy-MM-dd}" />
+                                <Run Text="(yyyy-MM-dd)" />
+                            </TextBlock>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </Border>
+
+                <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0,5,0,5" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Width="auto" Height="30"
+                            Margin="0" Padding="10,5,10,5"
+                            Content="{Localization:Lang CopyInfo}"
+                            Background="{Binding UIConfig.ThemeColor}"
+                            Foreground="{Binding UIConfig.Foreground}"
+                            FontFamily="{Binding UIConfig.FontFamily}"
+                            BorderBrush="{Binding UIConfig.ThemeColor}"
+                            FontSize="15" BorderThickness="0" 
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            materialDesign:ButtonAssist.CornerRadius="5"
+                            Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                            Command="{Binding CopyInfoCommand}" >
+                    </Button>
+                    <Button Grid.Column="2" Width="auto" MinWidth="60" Height="30"
+                            Margin="0" Padding="10,5,10,5"
+                            Content="{Localization:Lang ok}"
+                            Background="{Binding UIConfig.ThemeColor}"
+                            Foreground="{Binding UIConfig.Foreground}"
+                            FontFamily="{Binding UIConfig.FontFamily}"
+                            BorderBrush="{Binding UIConfig.ThemeColor}"
+                            FontSize="15" BorderThickness="0" 
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            materialDesign:ButtonAssist.CornerRadius="5"
+                            Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                            Command="{Binding OKCommand}" >
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </materialDesign:Card>
+</Window>

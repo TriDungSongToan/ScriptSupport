@@ -1,0 +1,221 @@
+﻿<Window x:Class="Character.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sdl="clr-namespace:Sdl.MultiSelectComboBox.Themes.Generic;assembly=Sdl.MultiSelectComboBox"
+        xmlns:local="clr-namespace:Character.UI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="5" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Width="180" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0,0,0,3" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBox Grid.Column="0"
+                         Text="{Binding TagInput}"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                         TextAlignment="Left" />
+                <Button Grid.Column="2"
+                        Content="Add Tag"
+                        Command="{Binding AddTagCommand}"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,0,0,3" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="Modify" Command="{Binding ModifyTagCommand}"/>
+                <Button Grid.Column="2" Content="Delete" Command="{Binding RemoveTagCommand}"/>
+
+            </Grid>
+
+            <Button Grid.Row="2" Content="Export Tag List to File" Command="{Binding ExportTagListToFileCommand}" Margin="0,0,0,3" />
+
+            <Button Grid.Row="3" Content="Import Tag List from File" Command="{Binding ImportTagListFromFileCommand}" Margin="0,0,0,3" />
+
+            <ListBox Grid.Row="4"
+                     ItemsSource="{Binding TagListInput, Mode=TwoWay}"
+                     SelectedItem="{Binding SelectedTagInput}"
+                     DisplayMemberPath="Name">
+                
+            </ListBox>
+
+        </Grid>
+
+        <Grid Grid.Column="2" >
+            <DataGrid ItemsSource="{Binding CharacterItems}"
+                      SelectedItem="{Binding SelectedCharItem}"
+                      Background="White" Foreground="Black"
+                      AutoGenerateColumns="False">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Char" Binding="{Binding Character}" Width="50" />
+                    <DataGridTextColumn Header="Desc" Binding="{Binding Description}" Width="200" />
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Grid>
+
+        <Grid Grid.Column="4" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Character" VerticalAlignment="Center" />
+
+                <TextBox Grid.Column="1" Grid.Row="0"
+                         Text="{Binding Character}" ToolTip="Character"
+                         FontSize="40" Padding="0" Margin="0"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                         TextAlignment="Left" />
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Desc" VerticalAlignment="Center" />
+
+                <TextBox Grid.Column="1" Grid.Row="2"
+                         Text="{Binding Desc}" ToolTip="Desc"
+                         FontSize="20" TextWrapping="Wrap"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                         TextAlignment="Left" />
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Group" />
+
+                <ComboBox Grid.Column="1" Grid.Row="4" ToolTip="CharacterGroups"
+                          ItemsSource="{Binding CharacterGroups}"
+                          SelectedItem="{Binding SelectedGroup}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="SubCategory" VerticalAlignment="Center" />
+
+                <TextBox Grid.Column="1" Grid.Row="6" FontSize="20"
+                         Text="{Binding SubCategory}" ToolTip="SubCategory"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                         TextAlignment="Left" />
+
+                <Grid Grid.Row="8" Grid.ColumnSpan="2" >
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Tag" />
+                </Grid>
+
+                <Border Grid.Row="10" Grid.ColumnSpan="2"
+                        Background="Transparent" BorderBrush="Red" BorderThickness="1">
+                    <sdl:MultiSelectComboBox MinHeight="30" Margin="0" Padding="0"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                             HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                             IsEnabled="True" MaxDropDownHeight="300" IsEditable="True"
+                             ClearFilterOnDropdownClosing="True" SelectionMode="Multiple"
+                             EnableAutoComplete="True" EnableBatchSelection="True"
+                             EnableFiltering="True" EnableGrouping="True"
+                             ClearSelectionOnFilterChanged="True"
+                             Style="{StaticResource MultiSelectComboBox.Custom.Style}"
+                             ItemsSource="{Binding AvailableTags}"
+                             SelectedItems="{Binding SelectedAvailableTags, Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}" >
+                        <sdl:MultiSelectComboBox.DropdownItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" Margin="5" TextAlignment="Left"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </sdl:MultiSelectComboBox.DropdownItemTemplate>
+                        <sdl:MultiSelectComboBox.SelectedItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Margin="5,0,5,0"
+                           HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </sdl:MultiSelectComboBox.SelectedItemTemplate>
+                    </sdl:MultiSelectComboBox>
+                </Border>
+
+            </Grid>
+
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Add Char" Command="{Binding AddCharItemCommand}" />
+                <Button Grid.Column="2" Content="Modify Char" Command="{Binding ModifyCharItemCommand}" />
+                <Button Grid.Column="4" Content="Delete Char" Command="{Binding DeleteCharItemCommand}" />
+            </Grid>
+
+            <Grid Grid.Row="4" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="Export Char List to JSON" Command="{Binding ExportCharItemToJsonCommand}" />
+                <Button Grid.Column="2" Content="Import Char List from JSON" Command="{Binding ImportCharItemFromJsonCommand}" />
+                
+            </Grid>
+
+            <Grid Grid.Row="6" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Load Tag List from Char List" Command="{Binding LoadTagListFromCharListCommand}" />
+                <Button Grid.Column="2" Content="Synchronize TagList" Command="{Binding SynchronizeTagListCommand}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

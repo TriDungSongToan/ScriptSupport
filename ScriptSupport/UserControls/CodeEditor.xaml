@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="ScriptSupport.UserControls.CodeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:avalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ScriptSupport.UserControls"
+             xmlns:behaviors="clr-namespace:ScriptSupport.Behaviors"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d"
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="avalonEdit:TextEditor" >
+            <Setter Property="ContextMenu" Value="{StaticResource EditorContextMenu}" />
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <avalonEdit:TextEditor x:Name="Editor" BorderThickness="0" Margin="0" Padding="0" Visibility="Visible"
+                               xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+                               Document="{Binding Document}"
+                               Background="{Binding UIConfig.SolidBackground}"
+                               Foreground="{Binding UIConfig.Foreground}"
+                               FontFamily="{Binding UIConfig.FontFamily}"
+                               FontSize="{Binding FontSize}"
+                               LineNumbersForeground="{Binding UIConfig.ThemeColor}"
+                               VerticalScrollBarVisibility="Hidden"
+                               HorizontalScrollBarVisibility="Hidden"
+                               HorizontalContentAlignment="Left"
+                               VerticalContentAlignment="Top"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               ShowLineNumbers="True"
+                               SyntaxHighlighting="{Binding SyntaxHighlighting}" >
+
+            <i:Interaction.Behaviors>
+                <behaviors:CaretBehavior CaretOffset="{Binding CaretOffset, Mode=OneWayToSource}"
+                                         CaretLine="{Binding CaretLine, Mode=OneWayToSource}"
+                                         CaretColumn="{Binding CaretColumn, Mode=OneWayToSource}" />
+                <behaviors:FontSizeBehavior FontSize="{Binding FontSize, Mode=TwoWay}" />
+                <behaviors:OvrBehavior IsOverstrikeMode="{Binding IsOverstrikeMode, Mode=TwoWay}" />
+                <behaviors:ScrollSyncBehavior HorizontalOffset="{Binding HorizontalOffset, Mode=TwoWay}"
+                                              ScrollableWidth="{Binding ScrollableWidth, Mode=OneWayToSource}"
+                                              ViewportWidth="{Binding ViewportWidth, Mode=OneWayToSource}" />
+            </i:Interaction.Behaviors>
+        </avalonEdit:TextEditor>
+        <local:FooterEditor Grid.Row="1" DataContext="{Binding DataContext, 
+                    RelativeSource={RelativeSource AncestorType=UserControl}}" />
+    </Grid>
+</UserControl>

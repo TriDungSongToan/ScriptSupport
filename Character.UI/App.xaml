@@ -1,0 +1,15 @@
+﻿<Application x:Class="Character.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Character.UI"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Styles/MultiSelectComboBox.Custom.ControlTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Styles/MultiSelectComboBox.Custom.DropdownItemTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Styles/MultiSelectComboBox.Custom.SelectedItemTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

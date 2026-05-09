@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="ScriptSupport.UserControls.EditorHostControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ScriptSupport.UserControls"
+             xmlns:ViewModels="clr-namespace:ScriptSupport.ViewModels"
+             xmlns:Converters="clr-namespace:ScriptSupport.Converters"
+             xmlns:Behaviors="clr-namespace:ScriptSupport.Behaviors"
+             xmlns:AvalonDock="https://github.com/Dirkster99/AvalonDock"
+             xmlns:avalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:reskeys="clr-namespace:AvalonDock.Themes.VS2013.Themes;assembly=AvalonDock.Themes.VS2013"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Converters:ActiveToBackgroundConverter x:Key="ActiveToBackgroundConverter"/>
+        <Converters:PositiveBoolToVisibilityConverter x:Key="PositiveBoolToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <AvalonDock:DockingManager x:Name="DockManager"
+                               DocumentsSource="{Binding Documents}"
+                               Padding="0" Margin="0" BorderThickness="0"
+                               ActiveContent="{Binding ActiveDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Background="Transparent" >
+        <AvalonDock:DockingManager.Theme>
+            <AvalonDock:Vs2013BlueTheme />
+        </AvalonDock:DockingManager.Theme>
+        <AvalonDock:DockingManager.LayoutItemContainerStyle>
+            <Style TargetType="{x:Type AvalonDock:LayoutItem}">
+                <Setter Property="Title" Value="{Binding Model.Title}" />
+                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                <Setter Property="CanClose" Value="False"/>
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Panel.Background" Value="Transparent" />
+                <Setter Property="DockPanel.Background" Value="Transparent" />
+                <Setter Property="FixedPage.Background" Value="Transparent" />
+                <Setter Property="VirtualizingPanel.Background" Value="Transparent" />
+            </Style>
+        </AvalonDock:DockingManager.LayoutItemContainerStyle>
+        <AvalonDock:DockingManager.LayoutItemContainerStyleSelector>
+            <Converters:PaneStyleSelector>
+                <Converters:PaneStyleSelector.DocumentStyle>
+                    <Style TargetType="{x:Type AvalonDock:LayoutItem}">
+                        <Setter Property="Title" Value="{Binding Model.Title}" />
+                        <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                        <Setter Property="CanClose" Value="False"/>
+                        <Setter Property="Margin" Value="0" />
+                    </Style>
+                </Converters:PaneStyleSelector.DocumentStyle>
+                <Converters:PaneStyleSelector.AnchorableStyle>
+                    <Style TargetType="{x:Type AvalonDock:LayoutItem}">
+                        <!--<Setter Property="Title"        Value="{Binding Model.Title}" />-->
+                        <!--<Setter Property="CloseCommand" Value="{Binding Model.HideCommand}" />-->
+                        <!--<Setter Property="CanClose"     Value="False"/>-->
+                        <!--<Setter Property="CanFloat"     Value="True"/>-->
+                        <!--<Setter Property="Visibility"   Value="{Binding Model.IsVisible, Converter={StaticResource PositiveBoolToVisibilityConverter}}"/>-->
+                        <!--<Setter Property="Margin" Value="0" />-->
+                        <!--<Setter Property="ClipToBounds" Value="False" />-->
+                    </Style>
+                </Converters:PaneStyleSelector.AnchorableStyle>
+            </Converters:PaneStyleSelector>
+        </AvalonDock:DockingManager.LayoutItemContainerStyleSelector>
+        <AvalonDock:DockingManager.DocumentHeaderTemplate>
+            <DataTemplate>
+                <Border CornerRadius="0" Margin="0,0,0,0">
+                    <Border.Background>
+                        <MultiBinding Converter="{StaticResource ActiveToBackgroundConverter}">
+                            <Binding Path="IsSelected"/>
+                            <Binding Path="DataContext.UIConfig.ThemeColor" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                            <Binding Path="DataContext.UIConfig.Background" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                        </MultiBinding>
+                    </Border.Background>
+                    <StackPanel Orientation="Horizontal" Background="Transparent" Margin="0,0,0,0" >
+
+                        <TextBlock Text="{Binding Title}"
+                                   FontStyle="{Binding Content.IsPreview, Converter={StaticResource BoolToFontStyleConverter}}"
+                                   FontFamily="{Binding DataContext.UIConfig.FontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Foreground="{Binding DataContext.UIConfig.Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                        
+                        <TextBlock Text="*"
+                                   Visibility="{Binding Content.IsDirty, Converter={StaticResource PositiveBoolToVisibilityConverter}}"
+                                   FontFamily="{Binding DataContext.UIConfig.FontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Foreground="{Binding DataContext.UIConfig.Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                        <Button Content="X" Background="Transparent" BorderThickness="0"
+                                Width="15" Height="16" Margin="6,0,0,0" Command="{Binding Content.CloseCommand}" >
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="{Binding DataContext.UIConfig.Foreground,
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Foreground" Value="{Binding DataContext.UIConfig.ThemeColor,
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </AvalonDock:DockingManager.DocumentHeaderTemplate>
+        <AvalonDock:DockingManager.AnchorableHeaderTemplate>
+            <DataTemplate>
+                <Border CornerRadius="0" Margin="0" Padding="0" Background="Transparent" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <!--<i:InvokeCommandAction Command="{Binding ShowCommand}" />-->
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <StackPanel Orientation="Horizontal">
+                        <!--<TextBlock Text="{Binding Title}"
+                                   FontFamily="{Binding DataContext.UIConfig.FontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Foreground="{Binding DataContext.UIConfig.Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+                        <Button Content="X" Background="Transparent" BorderThickness="0"
+                                Width="15" Height="15" Margin="5,0,0,0" Command="{Binding CloseCommand}" >
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="{Binding DataContext.UIConfig.Foreground,
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Foreground" Value="{Binding DataContext.UIConfig.ThemeColor,
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>-->
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </AvalonDock:DockingManager.AnchorableHeaderTemplate>
+        <AvalonDock:LayoutRoot>
+            <AvalonDock:LayoutPanel Orientation="Horizontal">
+                <AvalonDock:LayoutDocumentPane/>
+                <AvalonDock:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="250" >
+                    <AvalonDock:LayoutAnchorablePane />
+                </AvalonDock:LayoutAnchorablePaneGroup>
+            </AvalonDock:LayoutPanel>
+        </AvalonDock:LayoutRoot>
+    </AvalonDock:DockingManager>
+</UserControl>
